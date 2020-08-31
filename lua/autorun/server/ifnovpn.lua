@@ -37,16 +37,16 @@ hook.Add( "player_connect", "CHECK_ANTI_VPN_IFNET", function( data )
 			else
 				print("\n\n\n\n[IFNOVPN]: ERREUR LORS DE LA VERIFICATION DE L'IP.\n\n\n\n")
 				game.KickID( ifnovpn_clientid, "Erreur lors de la verification de l'ip. (Veuillez contacter l'administrateur > IFNET#4955)" )
-				--print("\n")
-				--print("URL: https://ifnet.fr/api/ifnovpn.php?ip=" .. ifnovpn_clientadress .. "&steamid=".. ifnovpn_steamid)
 			end
 		elseif statusCode == 404 then
 			print("[IFNOVPN] ERREUR API INTROUVABLE")
+			game.KickID( ifnovpn_clientid, "L'api IFNOVPN n'est pas correctement configuré.\n\n Veuillez contacter > IFNET#4955" )
 		elseif statusCode == 403 then
 			print("[IFNOVPN] ACCESS API REFUSÉ")
 			game.KickID( ifnovpn_clientid, "L'utilisation du IFNOVPN n'est pas autorisé.\n\n Veuillez contacter > IFNET#4955" )
 		else
 			print("[IFNOVPN] ERREUR API INCONNU")
+			game.KickID( ifnovpn_clientid, "Erreur IFNOVPN Inconnue.\n\n Veuillez contacter > IFNET#4955" )
 		end
 	end,
 	function(failed)
