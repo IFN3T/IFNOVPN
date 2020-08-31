@@ -20,34 +20,36 @@ MsgC(Color(0, 255, 0), [[
 
 gameevent.Listen( "player_connect" )
 hook.Add( "player_connect", "CHECK_ANTI_VPN_IFNET", function( data )
-	local ifnovpn_clientname = data.name			        // Same as Player:Nick()
-	local ifnovpn_steamid32 = data.networkid	            // Same as Player:SteamID()
-	local ifnovpn_clientadressandport = data.address		// Same as Player:IPAddress()
-	local ifnovpn_clientid = data.userid			        // Same as Player:UserID()
-	local ifnovpn_isbot = data.bot			                // Same as Player:IsBot()
-	local ifnovpn_uniqueid = data.index		                // Same as Player:EntIndex()
-	local ifnovpn_clientadress = string.Explode(":", ifnovpn_clientadressandport)[1]
+	local ifnovpn_clientname = data.name			        			// Same as Player:Nick()
+	local ifnovpn_steamid = util.SteamIDTo64(data.networkid)			// Same as Player:SteamID()
+	local ifnovpn_isbot = data.bot										// Same as Player:IsBot()
+	local ifnovpn_clientadress = string.Explode(":", data.address)[1]	// Same as Player:IPAddress()
 
-	http.Fetch( "https://ifnet.fr/api/ifnovpn2.php?ip=" .. ifnovpn_clientadress .. "&steamid=".. util.SteamIDTo64(ifnovpn_steamid32), function( body, len, headers, code )
-			local reponseapi = string.Explode( "^^", body)
+	http.Post("https://ifnet.fr/api/ifnovpnpost.php", { ip = ifnovpn_clientadress, steamid = ifnovpn_steamid }, 
+	function(responseText, contentLength, responseHeaders, statusCode)
+		local reponseapi = string.Explode( "^^", responseText)
+		if statusCode == 200 then
 			if reponseapi[1] == "YES" then
-				print("\n\n\n\n[IFNOVPN]: Adresse IP de " .. ifnovpn_clientname .. " autorisé.\n Pays: " .. reponseapi[3] .. "\nFAI: " .. reponseapi[5] .. "\nASN: " .. reponseapi[4] .. "\nIP: " .. ifnovpn_clientadress .. "\nSteamID: " .. util.SteamIDTo64(ifnovpn_steamid32))
+				print("\n\n\n\n[IFNOVPN]: Adresse IP de " .. ifnovpn_clientname .. " autorisé.\n Pays: " .. reponseapi[3] .. "\nFAI: " .. reponseapi[5] .. "\nASN: " .. reponseapi[4] .. "\nIP: " .. ifnovpn_clientadress .. "\nSteamID: " .. ifnovpn_steamid)
 			elseif reponseapi[1] == "NO" then
-				print("\n\n\n\n[IFNOVPN]: Adresse IP de " .. ifnovpn_clientname .. " refusé.\n Pays: " .. reponseapi[3] .. "\nFAI: " .. reponseapi[5] .. "\nASN: " .. reponseapi[4] .. "\nIP: " .. ifnovpn_clientadress .. "\nSteamID: " .. util.SteamIDTo64(ifnovpn_steamid32))
+				print("\n\n\n\n[IFNOVPN]: Adresse IP de " .. ifnovpn_clientname .. " refusé.\n Pays: " .. reponseapi[3] .. "\nFAI: " .. reponseapi[5] .. "\nASN: " .. reponseapi[4] .. "\nIP: " .. ifnovpn_clientadress .. "\nSteamID: " .. ifnovpn_steamid)
 				game.KickID( ifnovpn_clientid, "Adresse IP non autorisée.\n\n\nInformation technique:\n\nPays: ".. reponseapi[3] .." \nFAI: ".. reponseapi[5] .. " \nASN: ".. reponseapi[4] .. "\n\n\n[ℹ] Veuillez contacter un administrateur si vous pensez qu'il s'agit d'une erreur\n\n\nSteam: https://steamcommunity.com/id/IFNET\nDiscord: IFNET#4955")
 			else
 				print("\n\n\n\n[IFNOVPN]: ERREUR LORS DE LA VERIFICATION DE L'IP.\n\n\n\n")
-			    game.KickID( ifnovpn_clientid, "Erreur lors de la verification de l'ip. (Veuillez contacter l'administrateur > IFNET#4955)" )
-	            print("\n")
-	            print("URL: https://ifnet.fr/api/ifnovpn.php?ip=" .. ifnovpn_clientadress .. "&steamid=".. util.SteamIDTo64(ifnovpn_steamid32))
+				game.KickID( ifnovpn_clientid, "Erreur lors de la verification de l'ip. (Veuillez contacter l'administrateur > IFNET#4955)" )
+				--print("\n")
+				--print("URL: https://ifnet.fr/api/ifnovpn.php?ip=" .. ifnovpn_clientadress .. "&steamid=".. ifnovpn_steamid)
 			end
-		end, function( error )
-	print( "\n\n\n\n[IFNOVPN]: ERREUR LORS DE LA REQUETE HTTP\n" )
-	print("\n")
-	print("Code d'erreur: ".. error)
-	print("\n")
-	print("URL: https://ifnet.fr/api/ifnovpn.php?ip=" .. ifnovpn_clientadress .. "&steamid=".. util.SteamIDTo64(ifnovpn_steamid32))
-	
-	game.KickID( ifnovpn_clientid, "Serveur de verification d'IP hors-ligne. (Veuillez contacter l'administrateur > IFNET#4955)" )
+		elseif statusCode == 404 then
+			print("[IFNOVPN] ERREUR API INTROUVABLE")
+		elseif statusCode == 403 then
+			print("[IFNOVPN] ACCESS API REFUSÉ")
+			game.KickID( ifnovpn_clientid, "L'utilisation du IFNOVPN n'est pas autorisé.\n\n Veuillez contacter > IFNET#4955" )
+		else
+			print("[IFNOVPN] ERREUR API INCONNU")
+		end
+	end,
+	function(failed)
+		print(failed)
 	end)
 end)
