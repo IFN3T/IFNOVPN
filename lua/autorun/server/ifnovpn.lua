@@ -24,6 +24,7 @@ hook.Add( "player_connect", "CHECK_ANTI_VPN_IFNET", function( data )
 	local ifnovpn_steamid = util.SteamIDTo64(data.networkid)			// Same as Player:SteamID()
 	local ifnovpn_isbot = data.bot										// Same as Player:IsBot()
 	local ifnovpn_clientadress = string.Explode(":", data.address)[1]	// Same as Player:IPAddress()
+	local ifnovpn_clientid = data.userid								// Same as Player:UserID()
 
 	http.Post("https://ifnet.fr/api/ifnovpnpost.php", { ip = ifnovpn_clientadress, steamid = ifnovpn_steamid }, 
 	function(responseText, contentLength, responseHeaders, statusCode)
