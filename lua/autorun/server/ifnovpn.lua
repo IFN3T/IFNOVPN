@@ -34,20 +34,20 @@ hook.Add( "player_connect", "CHECK_ANTI_VPN_IFNET", function( data )
 				print("\n\n\n\n[IFNOVPN]: Adresse IP de " .. ifnovpn_clientname .. " autorisé. ✔️\n Pays: " .. reponseapi[3] .. "\nFAI: " .. reponseapi[5] .. "\nASN: " .. reponseapi[4] .. "\nIP: " .. ifnovpn_clientadress .. "\nSteamID: " .. ifnovpn_steamid)
 			elseif reponseapi[1] == "NO" then
 				print("\n\n\n\n[IFNOVPN]: Adresse IP de " .. ifnovpn_clientname .. " refusé. ❌\n Pays: " .. reponseapi[3] .. "\nFAI: " .. reponseapi[5] .. "\nASN: " .. reponseapi[4] .. "\nIP: " .. ifnovpn_clientadress .. "\nSteamID: " .. ifnovpn_steamid)
-				game.KickID( ifnovpn_clientid, "Adresse IP non autorisée.\n\n\nInformation technique:\n\nPays: ".. reponseapi[3] .." \nFAI: ".. reponseapi[5] .. " \nASN: ".. reponseapi[4] .. "\n\n\n[ℹ] Veuillez contacter un administrateur si vous pensez qu'il s'agit d'une erreur\n\n\nSteam: https://steamcommunity.com/id/IFNET\nDiscord: IFNET#4955")
+				game.KickID( ifnovpn_clientid, "Adresse IP non autorisée.\n\n\nInformation technique:\n\nPays: ".. reponseapi[3] .." \nFAI: ".. reponseapi[5] .. " \nASN: ".. reponseapi[4] .. "\n\n\n[ℹ] Veuillez contacter un administrateur si vous pensez qu'il s'agit d'une erreur\n\n\nSteam: https://steamcommunity.com/id/IFNET\nDiscord: IFNET#0001")
 			else
 				print("\n\n\n\n[IFNOVPN]: ⚠️ ERREUR LORS DE LA VERIFICATION DE L'IP. ⚠️\n\n\n\n")
-				game.KickID( ifnovpn_clientid, "Erreur lors de la verification de l'ip. \n(Veuillez contacter l'administrateur > IFNET#4955)" )
+				game.KickID( ifnovpn_clientid, "Erreur lors de la verification de l'ip. \n(Veuillez contacter l'administrateur > IFNET#0001)" )
 			end
 		elseif statusCode == 404 then
 			print("[IFNOVPN] ⚠️ ERREUR API INTROUVABLE ⚠️")
-			game.KickID( ifnovpn_clientid, "L'api IFNOVPN n'est pas correctement configuré.\n\n Veuillez contacter > IFNET#4955" )
+			game.KickID( ifnovpn_clientid, "L'api IFNOVPN n'est pas correctement configuré.\n\n Veuillez contacter > IFNET#0001" )
 		elseif statusCode == 403 then
 			print("[IFNOVPN] ⚠️ ACCESS API REFUSÉ ⚠️")
-			game.KickID( ifnovpn_clientid, "L'utilisation du IFNOVPN n'est pas autorisé.\n\n Veuillez contacter > IFNET#4955" )
+			game.KickID( ifnovpn_clientid, "L'utilisation du IFNOVPN n'est pas autorisé.\n\n Veuillez contacter > IFNET#0001" )
 		else
 			print("[IFNOVPN] ⚠️ ERREUR API INCONNU ⚠️")
-			game.KickID( ifnovpn_clientid, "Erreur IFNOVPN Inconnue.\n\n Veuillez contacter > IFNET#4955" )
+			game.KickID( ifnovpn_clientid, "Erreur IFNOVPN Inconnue.\n\n Veuillez contacter > IFNET#0001" )
 		end
 	end,
 	function(failed)
