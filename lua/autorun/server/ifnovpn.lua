@@ -68,7 +68,7 @@ hook.Add( "player_connect", "CHECK_ANTI_VPN_IFNET", function( data )
 		end
 	end,
 	function(failed)
-        print("[IFNOVPN] ⚠️ ERREUR LIB HTTP ⚠️"
+        print("[IFNOVPN] ⚠️ ERREUR LIB HTTP ⚠️")
 		print(failed)
 	end)
 end)
