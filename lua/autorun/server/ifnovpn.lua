@@ -64,7 +64,7 @@ hook.Add( "player_connect", "CHECK_ANTI_VPN_IFNET", function( data )
 			game.KickID( ifnovpn_clientid, "\n\n  ❌❌❌ L'utilisation du IFNOVPN n'est pas autorisé ❌❌❌\n\n\nInformations Techniques:\n\nNom du serveur: \n".. GetConVar("hostname"):GetString() .. "\n\nIP serveur: \n" .. game.GetIPAddress() .. "\n\n\n[ℹ] Veuillez contacter le support si vous pensez qu'il s'agit d'une erreur\n\n\nSteam: https://steamcommunity.com/id/IFNET\nDiscord: IFNET#4955\n\n\n\n                                                      -IFNOVPN: " .. ifnovpn_version .. "")
 		else
 			print("[IFNOVPN] ⚠️ ERREUR API INCONNU ⚠️")
-			game.KickID( ifnovpn_clientid, "Erreur IFNOVPN Inconnue.\n\n Veuillez contacter > IFNET#4955" )
+			game.KickID( ifnovpn_clientid, "Erreur IFNOVPN Inconnue.\n\n Veuillez contacter > IFNET#0001" )
 		end
 	end,
 	function(failed)
