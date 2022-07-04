@@ -39,7 +39,7 @@ hook.Add( "player_connect", "IFNOVPN_CHECK", function( data )
 					local reponseapi = string.Explode( "^^", responseText)
 						if statusCode == 200 then
 							if reponseapi[1] == "YES" then
-								print("\n\n\n\n[IFNOVPN]: ✔️ Adresse IP de " .. data.name .. " autorisé. ✔️\n Pays: " .. reponseapi[3] .. "\nFAI: " .. reponseapi[5] .. "\nASN: " .. reponseapi[4] .. "\nIP: " .. ifnovpn_clientadress .. "\nSteamID: " .. util.SteamIDTo64(data.networkid))
+								print("\n\n\n\n[IFNOVPN]: ✔️ Adresse IP de " .. data.name .. " autorisé. ✔️\nPays: " .. reponseapi[3] .. "\nFAI: " .. reponseapi[5] .. "\nASN: " .. reponseapi[4] .. "\nIP: " .. ifnovpn_clientadress .. "\nSteamID: " .. util.SteamIDTo64(data.networkid))
 							elseif reponseapi[1] == "NO" then
 								print("\n\n\n\n[IFNOVPN]: ❌ Adresse IP de " .. data.name .. " refusé. ❌\n Pays: " .. reponseapi[3] .. "\nFAI: " .. reponseapi[5] .. "\nASN: " .. reponseapi[4] .. "\nIP: " .. ifnovpn_clientadress .. "\nSteamID: " .. util.SteamIDTo64(data.networkid))
 								game.KickID( data.userid, "\n\n                    ❌ Adresse IP non autorisée. ❌\n\n\nInformations Techniques:\n\nPays: ".. reponseapi[3] .." \nFAI: ".. reponseapi[5] .. " \nASN: ".. reponseapi[4] .. "\n\n\n[ℹ] Veuillez contacter un administrateur si vous pensez qu'il s'agit d'une erreur\n\nSteam: https://steamcommunity.com/id/IFNET\nDiscord: IFNET#0001\n\n\n\n                                                      -IFNOVPN: " .. ifnovpn_version .. "")
