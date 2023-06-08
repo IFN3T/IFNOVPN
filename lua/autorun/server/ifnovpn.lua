@@ -54,7 +54,7 @@ hook.Add( "player_connect", "IFNOVPN_CHECK", function( data )
 							elseif statusCode == 403 then
 								print("\n[IFNOVPN] ❌ ACCESS API REFUSÉ ❌")
                                 game.KickID( data.userid, "\n\n  ❌❌❌ L'utilisation du IFNOVPN n'est pas autorisé ❌❌❌\n\n\nInformations Techniques:\n\nNom du serveur: \n".. GetConVar("hostname"):GetString() .. "\n\nIP serveur: \n" .. game.GetIPAddress() .. "\n\n\n[ℹ] Veuillez contacter le support si vous pensez qu'il s'agit d'une erreur\n\n\nSteam: https://steamcommunity.com/id/IFNET\nDiscord: ifnet\n\n\n\n                                                      -IFNOVPN: " .. ifnovpn_version .. "")
-                            elseif statusCode == 500 then
+                            				elseif statusCode == 500 then
                                 print("\n[IFNOVPN] ⚠️ ERREUR SERVEUR API ⚠️")
                                 print("Rapport d'erreur:\n"..util.Base64Encode("HTTPCODE: "..statusCode.."\nBODY:\n"..responseText))
 								game.KickID( data.userid, "Erreur du serveur API.\n\n Veuillez me contacter avec le rapport d'erreur afficher dans la console.\n\n\nSteam: https://steamcommunity.com/id/IFNET\nDiscord: ifnet" )
